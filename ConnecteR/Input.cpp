@@ -5,11 +5,11 @@ int Input::pressed()
 	static unsigned int reloadLbm = 0;
 	static bool reloadRbm = 0;
 	static bool grip = 0;
-
+	static Clock clock;
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
-		reloadLbm++;
-		if (reloadLbm == 750)
+		reloadLbm += clock.restart().asMicroseconds();
+		if (!grip && reloadLbm > 750000)
 		{
 			grip = 1;
 			return 3;
@@ -45,7 +45,7 @@ int Input::pressed()
 
 	return 0;
 }
-pair<int, int> Input::selected(GlobalRes &res)
+pair<int, int> Input::getTileUnderCursor(GlobalRes &res)
 {
 	for (int i = 0; i < res.N; i++)
 		for (int j = 0; j < res.N; j++)

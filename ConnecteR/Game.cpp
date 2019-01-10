@@ -294,37 +294,37 @@ void Game::taskGen(GlobalRes &res, int N)
 
 int Game::update(GlobalRes &res)
 {
-	static pair<int, int> select, swapped;
-	static bool selected = 0;
+	static pair<int, int> selected, current;
+	static bool isSelected = false;
 	static int pressType;
 
 	pressType = Input::pressed();
-	if (pressType)
+	if (pressType != 0)
 	{
-		select = Input::selected(res);
-		if (select == make_pair(-1, -1))
+		current = Input::getTileUnderCursor(res);
+		if (current == make_pair(-1, -1))
 			return 1;
 	}
-	if (!selected)
+	if (!isSelected)
 	{
 		if (pressType == 1)
-			res.Field[select.first][select.second].rotateNext();
+			res.Field[current.first][current.second].rotateNext();
 		if (pressType == 2)
-			res.Field[select.first][select.second].rotatePrev();
+			res.Field[current.first][current.second].rotatePrev();
 		if (pressType == 3)
 		{
-			swapped = select;
-			res.Field[swapped.first][swapped.second].select();
-			selected = 1;
+			selected = current;
+			res.Field[selected.first][selected.second].select();
+			isSelected = true;
 		}
 	}
 	else
 	{
 		if (pressType == 1 || pressType == 3)
 		{
-			swap(res.Field[swapped.first][swapped.second], res.Field[select.first][select.second]);
-			res.Field[swapped.first][swapped.second].select();
-			selected = 0;
+			res.Field[selected.first][selected.second].select();
+			swap(res.Field[selected.first][selected.second], res.Field[current.first][current.second]);
+			isSelected = false;
 		}
 	}
 	return check(res);

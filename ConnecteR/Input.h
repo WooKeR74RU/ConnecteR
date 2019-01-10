@@ -5,5 +5,5 @@
 namespace Input
 {
 	int pressed();
-	pair<int, int> selected(GlobalRes &res);
+	pair<int, int> getTileUnderCursor(GlobalRes &res);
 }
