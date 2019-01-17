@@ -292,13 +292,11 @@ void Game::taskGen(GlobalRes &res, int N)
 	}
 }
 
+pair<int, int> selected, current;
+bool isSelected;
 int Game::update(GlobalRes &res)
 {
-	static pair<int, int> selected, current;
-	static bool isSelected = false;
-	static int pressType;
-
-	pressType = Input::pressed();
+	int pressType = Input::pressed();
 	if (pressType != 0)
 	{
 		current = Input::getTileUnderCursor(res);
@@ -341,68 +339,70 @@ void Game::draw(GlobalRes &res)
 
 void Game::activate(GlobalRes &res)
 {
+	isSelected = false;
+
 	ways.resize(5, vector<vector<bool>>(4, vector<bool>(4)));
-	{
-		//Line
-		ways[1][0][1] = 1;
-		ways[1][0][3] = 1;
-		ways[1][1][0] = 1;
-		ways[1][1][2] = 1;
-		ways[1][2][1] = 1;
-		ways[1][2][3] = 1;
-		ways[1][3][0] = 1;
-		ways[1][3][2] = 1;
-		//Line
+	//Line
+	ways[1][0][1] = 1;
+	ways[1][0][3] = 1;
+	ways[1][1][0] = 1;
+	ways[1][1][2] = 1;
+	ways[1][2][1] = 1;
+	ways[1][2][3] = 1;
+	ways[1][3][0] = 1;
+	ways[1][3][2] = 1;
+	//Line
 
-		//Turn
-		ways[2][0][1] = 1;
-		ways[2][0][2] = 1;
-		ways[2][1][2] = 1;
-		ways[2][1][3] = 1;
-		ways[2][2][3] = 1;
-		ways[2][2][0] = 1;
-		ways[2][3][0] = 1;
-		ways[2][3][1] = 1;
-		//Turn
+	//Turn
+	ways[2][0][1] = 1;
+	ways[2][0][2] = 1;
+	ways[2][1][2] = 1;
+	ways[2][1][3] = 1;
+	ways[2][2][3] = 1;
+	ways[2][2][0] = 1;
+	ways[2][3][0] = 1;
+	ways[2][3][1] = 1;
+	//Turn
 
-		//Fork
-		ways[3][0][3] = 1;
-		ways[3][0][0] = 1;
-		ways[3][0][1] = 1;
-		ways[3][1][0] = 1;
-		ways[3][1][1] = 1;
-		ways[3][1][2] = 1;
-		ways[3][2][1] = 1;
-		ways[3][2][2] = 1;
-		ways[3][2][3] = 1;
-		ways[3][3][2] = 1;
-		ways[3][3][3] = 1;
-		ways[3][3][0] = 1;
-		//Fork
+	//Fork
+	ways[3][0][3] = 1;
+	ways[3][0][0] = 1;
+	ways[3][0][1] = 1;
+	ways[3][1][0] = 1;
+	ways[3][1][1] = 1;
+	ways[3][1][2] = 1;
+	ways[3][2][1] = 1;
+	ways[3][2][2] = 1;
+	ways[3][2][3] = 1;
+	ways[3][3][2] = 1;
+	ways[3][3][3] = 1;
+	ways[3][3][0] = 1;
+	//Fork
 
-		//Cross
-		ways[4][0][0] = 1;
-		ways[4][0][1] = 1;
-		ways[4][0][2] = 1;
-		ways[4][0][3] = 1;
-		ways[4][1][0] = 1;
-		ways[4][1][1] = 1;
-		ways[4][1][2] = 1;
-		ways[4][1][3] = 1;
-		ways[4][2][0] = 1;
-		ways[4][2][1] = 1;
-		ways[4][2][2] = 1;
-		ways[4][2][3] = 1;
-		ways[4][3][0] = 1;
-		ways[4][3][1] = 1;
-		ways[4][3][2] = 1;
-		ways[4][3][3] = 1;
-		//Cross
-	}
+	//Cross
+	ways[4][0][0] = 1;
+	ways[4][0][1] = 1;
+	ways[4][0][2] = 1;
+	ways[4][0][3] = 1;
+	ways[4][1][0] = 1;
+	ways[4][1][1] = 1;
+	ways[4][1][2] = 1;
+	ways[4][1][3] = 1;
+	ways[4][2][0] = 1;
+	ways[4][2][1] = 1;
+	ways[4][2][2] = 1;
+	ways[4][2][3] = 1;
+	ways[4][3][0] = 1;
+	ways[4][3][1] = 1;
+	ways[4][3][2] = 1;
+	ways[4][3][3] = 1;
+	//Cross
 }
 
 void Game::clear()
 {
+	isSelected = false;
+	current = selected = make_pair(0, 0);
 	used.clear();
 	timer = 0;
 	desk.clear();
