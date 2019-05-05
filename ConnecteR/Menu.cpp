@@ -91,7 +91,7 @@ void Menu::activate(GlobalRes &res)
 	spr_exit.setPosition(x, y);
 
 	font.loadFromFile("fonts/headplane.ttf");
-	text_options(text_1, font, 28, "Challenge your mind");
+	text_options(text_1, font, 28, "Start");
 	text_center(text_1, spr_play);
 	text_options(text_2, font, 28, "Disabled");
 	text_center(text_2, spr_options);
